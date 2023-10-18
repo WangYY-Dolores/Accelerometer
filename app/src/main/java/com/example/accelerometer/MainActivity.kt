@@ -60,6 +60,12 @@ class MainActivity : AppCompatActivity() ,SensorEventListener{
         seekBar.progress = (accelerometerViewModel.threshold).toInt()
         seekBar.min = 0
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser){
                     accelerometerViewModel.threshold = progress.toDouble()
@@ -67,20 +73,12 @@ class MainActivity : AppCompatActivity() ,SensorEventListener{
                 }
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
         })
     }
     private fun updateTextViews(sensitivity: Double) {
         displaySensitivity.text = "${sensitivity}"
 //        Toast.makeText(this,"Threshold : ${sensitivity}",Toast.LENGTH_LONG).show()
-    }
-
-    private fun makeToast(message:String){
-        Toast.makeText(this,"${message}",Toast.LENGTH_LONG).show()
     }
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -102,6 +100,12 @@ class MainActivity : AppCompatActivity() ,SensorEventListener{
     override fun onPause() {
         super.onPause()
         sensorManager!!.unregisterListener(this)
+    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+    }
+
+    private fun makeToast(message:String){
+        Toast.makeText(this,"${message}",Toast.LENGTH_LONG).show()
     }
     override fun onSensorChanged(event: SensorEvent?) {
            if(event!!.sensor.type == Sensor.TYPE_LINEAR_ACCELERATION){
@@ -148,8 +152,6 @@ class MainActivity : AppCompatActivity() ,SensorEventListener{
                }
         }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-    }
 
 
 }
